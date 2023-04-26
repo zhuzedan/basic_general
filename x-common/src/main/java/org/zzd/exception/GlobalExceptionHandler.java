@@ -22,6 +22,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseResult error(Exception ex) throws Exception {
+        ex.printStackTrace();
         //针对于捕捉不到AccessDeniedHandler的情况，直接向上抛出
         if ("不允许访问".equals(ex.getMessage())) {
             throw ex;

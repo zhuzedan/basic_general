@@ -3,6 +3,8 @@ package org.zzd.exception;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.zzd.result.ResponseResult;
+import org.zzd.result.ResultCodeEnum;
 
 /**
  * @author :zzd
@@ -15,6 +17,11 @@ public class ResponseException extends RuntimeException {
     private Integer code;
     @ApiModelProperty(value = "错误信息")
     private String message;
+
+    public ResponseException(ResultCodeEnum resultCodeEnum) {
+        this.code = resultCodeEnum.getCode();
+        this.message = resultCodeEnum.getMessage();
+    }
 
     public ResponseException(String message) {
         this.code = 500;

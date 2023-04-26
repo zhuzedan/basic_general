@@ -21,7 +21,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         //给前端ResponseResult 的json
-        ResponseResult responseResult = ResponseResult.error(ResultCodeEnum.UNAUTHORIZED.getCode(),ResultCodeEnum.UNAUTHORIZED.getMessage());
+        ResponseResult<ResultCodeEnum> responseResult = ResponseResult.error(ResultCodeEnum.UNAUTHORIZED);
         String json = JSON.toJSONString(responseResult);
         WebUtils.renderString(response,json);
     }

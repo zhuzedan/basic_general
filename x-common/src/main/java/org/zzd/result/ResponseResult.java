@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 封装统一返回值
  * @author :zzd
+ * @apiNote :封装统一返回值
  * @date : 2023-02-26 15:49
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -15,66 +15,69 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseResult<T> {
-    /**
-     * 是否成功
-     */
+    //是否成功
     private Boolean success;
-    /**
-     * 状态码
-     */
+
+    //状态码
     private Integer code;
-    /**
-     * 提示信息，如果有错误时，前端可以获取该字段进行提示
-     */
+
+    //提示信息，如果有错误时，前端可以获取该字段进行提示
     private String message;
-    /**
-     * 查询到的结果数据，
-     */
+
+    //查询到的结果数据
     private T data;
 
-    public static <T> ResponseResult<T> success(String message,T data) {
-        ResponseResult<T> result = new ResponseResult<>();
-        result.setSuccess(true);
-        result.setCode(ResultCodeEnum.SUCCESS.getCode());
-        result.setMessage(message);
-        result.setData(data);
+    // 返回数据
+    protected static <T> ResponseResult<T> build(T data) {
+        ResponseResult<T> result = new ResponseResult<T>();
+        if (data != null) {
+            result.setData(data);
+        }
         return result;
     }
-    public static <T> ResponseResult<T> success(T data) {
-        ResponseResult<T> result = new ResponseResult<>();
-        result.setSuccess(true);
-        result.setCode(ResultCodeEnum.SUCCESS.getCode());
-        result.setMessage(ResultCodeEnum.SUCCESS.getMessage());
-        result.setData(data);
-        return result;
-    }
-    public static <T> ResponseResult<T> success() {
-        ResponseResult<T> result = new ResponseResult<>();
-        result.setSuccess(true);
-        result.setCode(ResultCodeEnum.SUCCESS.getCode());
-        result.setMessage(ResultCodeEnum.SUCCESS.getMessage());
-        return result;
-    }
-    public static <T> ResponseResult<T> error() {
-        ResponseResult<T> result = new ResponseResult<>();
-        result.setSuccess(false);
-        result.setCode(ResultCodeEnum.FAIL.getCode());
-        result.setMessage(ResultCodeEnum.FAIL.getMessage());
-        return result;
-    }
-    public static <T> ResponseResult<T> error(String message) {
-        ResponseResult<T> result = new ResponseResult<>();
-        result.setSuccess(false);
-        result.setCode(ResultCodeEnum.FAIL.getCode());
-        result.setMessage(message);
-        return result;
-    }
-    public static <T> ResponseResult<T> error(Integer code,String message) {
-        ResponseResult<T> result = new ResponseResult<>();
-        result.setSuccess(false);
+
+    public static <T> ResponseResult<T> build(T body, Integer code, String message) {
+        ResponseResult<T> result = build(body);
+        result.setSuccess(code == 200);
         result.setCode(code);
         result.setMessage(message);
         return result;
+    }
+
+    public static <T> ResponseResult<T> build(T body, ResultCodeEnum resultCodeEnum) {
+        ResponseResult<T> result = build(body);
+        result.setSuccess(resultCodeEnum.getCode() == 200);
+        result.setCode(resultCodeEnum.getCode());
+        result.setMessage(resultCodeEnum.getMessage());
+        return result;
+    }
+
+    public static <T> ResponseResult<T> success() {
+        return ResponseResult.success(null);
+    }
+
+    public static <T> ResponseResult<T> success(T data) {
+        return build(data, ResultCodeEnum.SUCCESS);
+    }
+
+    public static <T> ResponseResult<T> success(String message, T data) {
+        return build(data, ResultCodeEnum.SUCCESS.getCode(), message);
+    }
+
+    public static <T> ResponseResult<T> error() {
+        return ResponseResult.error(null);
+    }
+
+    public static <T> ResponseResult<T> error(T data) {
+        return build(data, ResultCodeEnum.FAIL);
+    }
+
+    public static <T> ResponseResult<T> error(String message) {
+        return build(null, ResultCodeEnum.FAIL.getCode(), message);
+    }
+
+    public static <T> ResponseResult<T> error(Integer code, String message) {
+        return build(null, code, message);
     }
 }
 

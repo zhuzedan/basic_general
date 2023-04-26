@@ -21,7 +21,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException){
         //给前端ResponseResult 的json
-        ResponseResult responseResult = ResponseResult.error(ResultCodeEnum.FORBIDDEN.getCode(), ResultCodeEnum.FORBIDDEN.getMessage());
+        ResponseResult<ResultCodeEnum> responseResult = ResponseResult.error(ResultCodeEnum.FORBIDDEN);
         String json = JSON.toJSONString(responseResult);
         WebUtils.renderString(response,json);
     }
