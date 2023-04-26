@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.zzd.result.ResponseResult;
 
 /**
- * 全局异常处理类
- *
  * @author :zzd
+ * @apiNote :全局异常处理类
  * @date : 2023-03-01 16:11
  */
 @ControllerAdvice
@@ -17,10 +16,8 @@ import org.zzd.result.ResponseResult;
 public class GlobalExceptionHandler {
 
     /**
-     * @apiNote 全局异常
-     * @date 2023/3/14 21:53
      * @param ex: 异常
-     * @return org.zzd.result.ResponseResult
+     * @apiNote 全局异常
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
@@ -33,16 +30,18 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * @apiNote 指定异常
-     * @date 2023/3/14 21:53
      * @param ex: 异常
-     * @return org.zzd.result.ResponseResult
+     * @apiNote 指定异常
      */
     @ExceptionHandler(ResponseException.class)
     @ResponseBody
     public ResponseResult error(ResponseException ex) {
         ex.printStackTrace();
-        return ResponseResult.error(ex.getCode(), ex.getMessage());
+        if (ex.getCode() == null) {
+            return ResponseResult.error(ex.getMessage());
+        } else {
+            return ResponseResult.error(ex.getCode(), ex.getMessage());
+        }
     }
 
 }

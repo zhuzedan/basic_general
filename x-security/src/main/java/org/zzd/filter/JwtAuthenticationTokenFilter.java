@@ -49,11 +49,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUserNameFromToken(token);
             }catch (Exception e) {
-                throw new ResponseException(400, "token不合法");
+                throw new ResponseException("token不合法");
             }
             String frontToken = redisCache.getCacheObject("token_");
             if (!frontToken.equals(token)) {
-                throw new ResponseException(500,"token验证失败");
+                throw new ResponseException("token验证失败");
             }
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (userDetails != null) {

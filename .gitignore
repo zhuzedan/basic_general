@@ -1,1 +1,7 @@
 /.idea
+/x-common/x-common.iml
+/x-log/x-log.iml
+/x-security/x-security.iml
+/x-common/target
+/x-log/target
+/x-security/target
