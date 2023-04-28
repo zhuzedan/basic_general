@@ -116,7 +116,6 @@ public class LogAspect {
      * @param log:          日志
      * @param operationLog: 操作日志
      * @param jsonResult:   json结果
-     * @return void
      * @apiNote 获取注解中对方法的描述信息 用于Controller层注解
      */
     public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SystemOperationLog operationLog, Object jsonResult) {

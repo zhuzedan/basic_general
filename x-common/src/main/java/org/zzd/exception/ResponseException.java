@@ -3,7 +3,6 @@ package org.zzd.exception;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.zzd.result.ResponseResult;
 import org.zzd.result.ResultCodeEnum;
 
 /**
