@@ -11,12 +11,16 @@ import org.springframework.stereotype.Component;
 public class AuthUtils {
     /**
      * @apiNote 获取当前登录用户名
-     * @date 2023/3/3 21:57
      * @return java.lang.String
      */
     public static String getCurrentUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
+
+    /**
+     * @apiNote 获取当前用户id
+     * @return java.lang.Long
+     */
     public static Long getUserId() {
         return Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
     }

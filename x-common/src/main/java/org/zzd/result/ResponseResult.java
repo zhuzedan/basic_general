@@ -65,19 +65,19 @@ public class ResponseResult<T> {
     }
 
     public static <T> ResponseResult<T> error() {
-        return ResponseResult.error(null);
-    }
-
-    public static <T> ResponseResult<T> error(T data) {
-        return build(data, ResultCodeEnum.FAIL);
+        return build(null, ResultCodeEnum.FAIL);
     }
 
     public static <T> ResponseResult<T> error(String message) {
         return build(null, ResultCodeEnum.FAIL.getCode(), message);
     }
 
-    public static <T> ResponseResult<T> error(Integer code, String message) {
+    public static <T> ResponseResult<T> error(Integer code,String message) {
         return build(null, code, message);
+    }
+
+    public static <T> ResponseResult<T> error(ResultCodeEnum codeEnum) {
+        return build(null, codeEnum);
     }
 }
 

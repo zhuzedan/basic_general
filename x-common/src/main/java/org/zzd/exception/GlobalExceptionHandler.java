@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zzd.result.ResponseResult;
+import org.zzd.result.ResultCodeEnum;
 
 /**
  * @author :zzd
@@ -38,11 +39,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseResult error(ResponseException ex) {
         ex.printStackTrace();
-        if (ex.getCode() == null) {
-            return ResponseResult.error(ex.getMessage());
-        } else {
-            return ResponseResult.error(ex.getCode(), ex.getMessage());
-        }
+        return ResponseResult.error(ex.getCode(),ex.getMessage());
     }
 
 }
