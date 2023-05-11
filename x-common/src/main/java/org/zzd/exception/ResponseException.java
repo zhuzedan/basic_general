@@ -26,9 +26,4 @@ public class ResponseException extends RuntimeException {
         this.code = 500;
         this.message = message;
     }
-
-    public ResponseException(Integer code, String message) {
-        this.code = code;
-        this.message = message;
-    }
 }

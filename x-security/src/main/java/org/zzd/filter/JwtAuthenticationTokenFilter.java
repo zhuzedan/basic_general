@@ -11,7 +11,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.zzd.constant.SecurityConstants;
 import org.zzd.exception.ResponseException;
 import org.zzd.utils.JwtTokenUtil;
-import org.zzd.utils.RedisCache;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -30,8 +29,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Resource
     private JwtTokenUtil jwtTokenUtil;
-    @Autowired
-    private RedisCache redisCache;
     @Autowired
     private UserDetailsService userDetailsService;
 
