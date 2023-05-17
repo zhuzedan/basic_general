@@ -12,6 +12,7 @@ import org.zzd.entity.SystemLoginLog;
 import org.zzd.mapper.SystemLoginLogMapper;
 import org.zzd.utils.ApiUtils;
 import org.zzd.utils.AuthUtils;
+import org.zzd.utils.ThreadLocalUtil;
 import org.zzd.utils.ThrowableUtil;
 
 import javax.annotation.Resource;
@@ -40,7 +41,7 @@ public class LoginLogAspect {
         //ip地址
         systemLoginLog.setIpaddr(ApiUtils.getHostIp());
         //用户名
-        systemLoginLog.setUsername(AuthUtils.getCurrentUsername());
+        systemLoginLog.setUsername(ThreadLocalUtil.getUsername());
         //异常exception
         if (e != null) {
             systemLoginLog.setStatus(0);
