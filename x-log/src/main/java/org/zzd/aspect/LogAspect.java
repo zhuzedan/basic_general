@@ -42,7 +42,7 @@ public class LogAspect {
 
     @Pointcut("@annotation(org.zzd.annotation.Log)")
     public void logPointcut() {
-
+        // 该方法无方法体,主要为了让同类中其他方法使用此切入点
     }
 
     @Before("logPointcut()")
