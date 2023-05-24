@@ -72,7 +72,7 @@ public class ResponseResult<T> {
         return build(null, ResultCodeEnum.FAIL.getCode(), message);
     }
 
-    public static <T> ResponseResult<T> error(Integer code,String message) {
+    public static <T> ResponseResult<T> error(Integer code, String message) {
         return build(null, code, message);
     }
 

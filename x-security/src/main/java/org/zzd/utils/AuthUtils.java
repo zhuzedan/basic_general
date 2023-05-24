@@ -33,12 +33,5 @@ public class AuthUtils {
         throw new ResponseException("找不到当前登录信息");
     }
 
-    /**
-     * @apiNote 获取当前用户id
-     * @return java.lang.Long
-     */
-    public static Long getUserId() {
-        return Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-    }
 
 }
