@@ -4,76 +4,76 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author :zzd
  * @apiNote :接口文档加强
+ * @author :zzd
  * @date : 2023-02-27 21:33
  */
 @Configuration
-@EnableSwagger2WebMvc
+@EnableSwagger2
 public class Knife4jConfig {
-    private final static String headerName = "Authorization";
+    private static final String tokenHeader = "Authorization";
 
     @Bean
     public Docket adminApiConfig() {
-
-        Docket adminApi = new Docket(DocumentationType.SWAGGER_2)
-                .groupName("adminApi")
+        return new Docket(DocumentationType.SWAGGER_2)
+                .pathMapping("/")
                 .apiInfo(adminApiInfo())
                 .select()
-                //只显示admin路径下的页面
-                .apis(RequestHandlerSelectors.basePackage("org.zzd"))
-                .paths(PathSelectors.regex("/api/.*"))
+                .paths(PathSelectors.regex("^(?!/error).*"))
+                .paths(PathSelectors.any())
                 .build()
-                .securitySchemes(securitySchemes())//配置安全方案
-                .securityContexts(securityContexts())//配置安全方案所实现的上下文
-                ;
-        return adminApi;
+                //添加登录认证
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts());
+    }
+
+    private ApiInfo adminApiInfo() {
+        return new ApiInfoBuilder()
+                .title("通用后台管理系统-API文档")
+                .description("zzd写的接口文档")
+                .version("1.0")
+                .build();
     }
 
     private List<SecurityScheme> securitySchemes() {
+        //设置请求头信息
         List<SecurityScheme> apiKeyList = new ArrayList<>();
-        //配置header头1
-        ApiKey token_access = new ApiKey(headerName, headerName, "header");
+        ApiKey token_access = new ApiKey(tokenHeader, tokenHeader, "header");
         apiKeyList.add(token_access);
         return apiKeyList;
     }
 
     private List<SecurityContext> securityContexts() {
-        List<SecurityContext> securityContextList = new ArrayList<>();
-        List<SecurityReference> securityReferenceList = new ArrayList<>();
-        //为每个api添加请求头
-        securityReferenceList.add(new SecurityReference(headerName, scopes()));
-        securityContextList.add(SecurityContext
-                .builder()
-                .securityReferences(securityReferenceList)
-                .forPaths(PathSelectors.any())
-                .build()
-        );
-        return securityContextList;
+        List<SecurityContext> securityContexts = new ArrayList<>();
+        // ^(?!auth).*$ 表示所有包含auth的接口不需要使用securitySchemes即不需要带token
+        // ^标识开始  ()里是一子表达式  ?!/auth表示匹配不是/auth的位置，匹配上则添加请求头，注意路径已/开头  .表示任意字符  *表示前面的字符匹配多次 $标识结束
+        securityContexts.add(getContextByPath());
+        return securityContexts;
     }
 
-    private AuthorizationScope[] scopes() {
-        return new AuthorizationScope[]{new AuthorizationScope("global", "accessAnything")};//作用域为全局
-    }
-
-    private ApiInfo adminApiInfo() {
-
-        return new ApiInfoBuilder()
-                .title("通用后台管理系统-API文档")
-                .description("zzd写的接口文档")
-                .version("1.0")
-                .contact(new Contact("zzd", "http://zhuzedan.githubi.io", "1031155817@qq.com"))
+    private SecurityContext getContextByPath() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .operationSelector(o -> o.requestMappingPattern().matches("^(?!/api/auth).*$"))
                 .build();
+    }
+
+    List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        List<SecurityReference> securityReferences = new ArrayList<>();
+        securityReferences.add(new SecurityReference(tokenHeader, authorizationScopes));
+        return securityReferences;
     }
 }

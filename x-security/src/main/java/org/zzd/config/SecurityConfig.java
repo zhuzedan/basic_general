@@ -63,15 +63,15 @@ public class SecurityConfig {
 
     // 放行白名单
     private static final String[] AUTH_WHITELIST = {
-            "/api/systemUser/login",
-            "/api/systemUser/loginCaptcha",
-            "/api/systemUser/captcha",
+            "/api/auth/**",
+            "/api/wechat/login",
             "/swagger-resources/**",
             "/swagger-ui.html",
+            "/swagger-ui/*",
             "/v2/api-docs",
+            "/v3/api-docs",
             "/webjars/**",
-            "/doc.html",
-            "/api/wechat/login"
+            "/doc.html"
     };
 
 }

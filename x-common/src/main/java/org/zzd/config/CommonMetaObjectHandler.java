@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * @author :zzd
  * @apiNote :mp自动填充时间配置类
+ * @author :zzd
  * @date : 2023-03-30 16:48
  */
 @Component
@@ -22,8 +22,8 @@ public class CommonMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("自动创建时间");
-        this.strictInsertFill(metaObject,"createTime", Date.class,new Date());
-        this.strictInsertFill(metaObject,"updateTime",Date.class,new Date());
+        this.strictInsertFill(metaObject, "createTime", Date.class, new Date());
+        this.strictInsertFill(metaObject, "updateTime", Date.class, new Date());
     }
 
     /**
@@ -32,6 +32,6 @@ public class CommonMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("自动更新时间");
-        this.strictInsertFill(metaObject,"updateTime",Date.class,new Date());
+        this.strictInsertFill(metaObject, "updateTime", Date.class, new Date());
     }
 }
