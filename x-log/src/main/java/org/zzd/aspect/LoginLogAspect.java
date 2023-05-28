@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.zzd.entity.SystemLoginLog;
 import org.zzd.mapper.SystemLoginLogMapper;
 import org.zzd.utils.ApiUtils;
-import org.zzd.utils.AuthUtils;
 import org.zzd.utils.ThreadLocalUtil;
 import org.zzd.utils.ThrowableUtil;
 
@@ -57,7 +56,7 @@ public class LoginLogAspect {
         //ip地址
         systemLoginLog.setIpaddr(ApiUtils.getHostIp());
         //用户名
-        systemLoginLog.setUsername(AuthUtils.getCurrentUsername());
+        systemLoginLog.setUsername(ThreadLocalUtil.getUsername());
         JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(jsonResult));
         String code = jsonObject.getString("code");
         if ("200".equals(code)) {

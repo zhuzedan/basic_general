@@ -23,7 +23,7 @@
     <dependencies>
         <dependency>
             <groupId>org.zzd</groupId>
-            <artifactId>x-security</artifactId>
+            <artifactId>x-common</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

@@ -13,9 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.zzd.annotation.Log;
 import org.zzd.entity.SystemOperationLog;
 import org.zzd.mapper.SystemOperationLogMapper;
-import org.zzd.utils.AuthUtils;
 import org.zzd.utils.HttpContextUtils;
 import org.zzd.utils.IpUtil;
+import org.zzd.utils.ThreadLocalUtil;
 import org.zzd.utils.ThrowableUtil;
 
 import javax.annotation.Resource;
@@ -95,7 +95,7 @@ public class LogAspect {
             // 设置请求方法类型
             systemOperationLog.setRequestMethod(request.getMethod());
             //操作人
-            systemOperationLog.setOperationName(AuthUtils.getCurrentUsername());
+            systemOperationLog.setOperationName(ThreadLocalUtil.getUsername());
             //操作时间
             systemOperationLog.setOperationTime(System.currentTimeMillis() - startTime.get() + "ms");
             // 处理设置注解上的参数
