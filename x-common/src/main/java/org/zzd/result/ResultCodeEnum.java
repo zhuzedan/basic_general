@@ -19,6 +19,9 @@ public enum ResultCodeEnum implements CustomizeResultCode {
     PARAM_IS_BLANK(1002, "参数为空"),
     PARAM_TYPE_ERROR(1003, "参数类型错误"),
     PARAM_NOT_COMPLETE(1004, "参数缺失"),
+    CREATE_FAIL(10011, "新增失败"),
+    DELETE_FAIL(10013, "删除失败"),
+
 
     //用户错误
     ACCOUNT_ERROR(2001, "用户名不正确"),

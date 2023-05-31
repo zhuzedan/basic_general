@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author :zzd
- * @apiNote :封装统一返回值
- * @date : 2023-02-26 15:49
+ * @apiNote 封装统一返回值
+ * @author zzd
+ * @date 2023-02-26 15:49
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data

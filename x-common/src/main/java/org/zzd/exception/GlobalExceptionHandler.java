@@ -5,12 +5,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zzd.result.ResponseResult;
-import org.zzd.result.ResultCodeEnum;
 
 /**
- * @author :zzd
- * @apiNote :全局异常处理类
- * @date : 2023-03-01 16:11
+ * @apiNote 全局异常处理类
+ * @author zzd
+ * @date 2023-03-01 16:11
  */
 @ControllerAdvice
 @Slf4j
@@ -39,7 +38,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseResult error(ResponseException ex) {
         ex.printStackTrace();
-        return ResponseResult.error(ex.getCode(),ex.getMessage());
+        return ResponseResult.error(ex.getCode(), ex.getMessage());
     }
 
 }

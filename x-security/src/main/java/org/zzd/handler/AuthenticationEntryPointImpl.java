@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author :zzd
- * @apiNote : 没有登录的响应
- * @date : 2023-02-19 11:19
+ * @apiNote 没有登录的响应
+ * @author zzd
+ * @date 2023-02-19 11:19
  */
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
@@ -23,6 +23,6 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
         //给前端ResponseResult 的json
         ResponseResult<ResultCodeEnum> responseResult = ResponseResult.error(ResultCodeEnum.UNAUTHORIZED);
         String json = JSON.toJSONString(responseResult);
-        WebUtils.renderString(response,json);
+        WebUtils.renderString(response, json);
     }
 }

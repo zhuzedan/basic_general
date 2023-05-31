@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author :zzd
- * @apiNote :OncePerRequestFilter保证过滤只执行一次，在请求前
- * @date : 2023-03-02 11:26
+ * @apiNote OncePerRequestFilter保证过滤只执行一次，在请求前
+ * @author zzd
+ * @date 2023-03-02 11:26
  */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
@@ -38,14 +38,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String token = null;
         String bearerToken = request.getHeader(SecurityConstants.HEADER_STRING);
         if (!StringUtils.isBlank(bearerToken) && bearerToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-            token =  bearerToken.replace(SecurityConstants.TOKEN_PREFIX+" ","");
+            token = bearerToken.replace(SecurityConstants.TOKEN_PREFIX + " ", "");
         }
         if (!StringUtils.isBlank(bearerToken) && bearerToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
             //解析token
             String username;
             try {
                 username = jwtTokenUtil.getUserNameFromToken(token);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 throw new ResponseException("token不合法");
             }
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -56,7 +56,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
-
         //如果token没有获取到就放行，让后面的过滤器执行，后面过滤器会拦截到
         filterChain.doFilter(request, response);
     }

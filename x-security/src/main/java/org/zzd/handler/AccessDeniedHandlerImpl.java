@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author :zzd
- * @apiNote : 没有权限访问的响应
- * @date : 2023-02-19 11:17
+ * @apiNote 没有权限访问的响应
+ * @author zzd
+ * @date 2023-02-19 11:17
  */
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
