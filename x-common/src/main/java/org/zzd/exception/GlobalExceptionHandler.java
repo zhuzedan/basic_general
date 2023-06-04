@@ -1,10 +1,17 @@
 package org.zzd.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zzd.result.ResponseResult;
+import org.zzd.result.ResultCodeEnum;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @apiNote 全局异常处理类
@@ -41,4 +48,32 @@ public class GlobalExceptionHandler {
         return ResponseResult.error(ex.getCode(), ex.getMessage());
     }
 
+    /**
+     * @apiNote 参数校验异常
+     * @param e e
+     * @return {@link ResponseResult }
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    public ResponseResult error(MethodArgumentNotValidException e) {
+        log.error("MethodArgumentNotValidException: ", e);
+        return handleBindingResult(e.getBindingResult());
+    }
+
+    private ResponseResult handleBindingResult(BindingResult result) {
+        //把异常处理为对外暴露的提示
+        List<String> list = new ArrayList<>();
+        //是不是包含错误
+        if (result.hasErrors()) {
+            List<ObjectError> allErrors = result.getAllErrors();
+            for (ObjectError objectError : allErrors) {
+                String message = objectError.getDefaultMessage();
+                list.add(message);
+            }
+        }
+        if (list.size() == 0) {
+            return ResponseResult.error(ResultCodeEnum.PARAM_NOT_COMPLETE);
+        }
+        return ResponseResult.error(ResultCodeEnum.PARAM_NOT_COMPLETE.getCode(), list.toString());
+    }
 }
