@@ -1,4 +1,4 @@
-package org.zzd.exception;
+package org.zzd.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.zzd.exception.ResponseException;
 import org.zzd.result.ResponseResult;
 import org.zzd.result.ResultCodeEnum;
 
@@ -23,29 +24,31 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     /**
-     * @param ex: 异常
      * @apiNote 全局异常
+     * @param e : 异常
+     * @return {@link ResponseResult }
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseResult error(Exception ex) throws Exception {
-        ex.printStackTrace();
+    public ResponseResult error(Exception e) throws Exception {
+        e.printStackTrace();
         //针对于捕捉不到AccessDeniedHandler的情况，直接向上抛出
-        if ("不允许访问".equals(ex.getMessage())) {
-            throw ex;
+        if ("不允许访问".equals(e.getMessage())) {
+            throw e;
         }
         return ResponseResult.error();
     }
 
     /**
-     * @param ex: 异常
      * @apiNote 指定异常
+     * @param e : 异常
+     * @return {@link ResponseResult }
      */
     @ExceptionHandler(ResponseException.class)
     @ResponseBody
-    public ResponseResult error(ResponseException ex) {
-        ex.printStackTrace();
-        return ResponseResult.error(ex.getCode(), ex.getMessage());
+    public ResponseResult error(ResponseException e) {
+        e.printStackTrace();
+        return ResponseResult.error(e.getCode(), e.getMessage());
     }
 
     /**
@@ -76,4 +79,18 @@ public class GlobalExceptionHandler {
         }
         return ResponseResult.error(ResultCodeEnum.PARAM_NOT_COMPLETE.getCode(), list.toString());
     }
+
+
+    /**
+     * @apiNote 处理非法参数异常
+     * @param e e
+     * @return {@link ResponseResult }
+     */
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    @ResponseBody
+    public ResponseResult handleIllegalArgumentException(IllegalArgumentException e) {
+        e.printStackTrace();
+        return ResponseResult.error(e.getMessage());
+    }
+
 }
