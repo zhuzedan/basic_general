@@ -1,6 +1,7 @@
 package org.zzd.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,16 +16,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseResult<T> {
-    //是否成功
+    @ApiModelProperty(value = "返回状态")
     private Boolean success;
 
-    //状态码
+    @ApiModelProperty(value = "状态码")
     private Integer code;
 
-    //提示信息，如果有错误时，前端可以获取该字段进行提示
+    @ApiModelProperty(value = "提示信息")
     private String message;
 
-    //查询到的结果数据
+    @ApiModelProperty(value = "返回数据")
     private T data;
 
     // 返回数据

@@ -13,10 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.zzd.annotation.Log;
 import org.zzd.entity.SystemOperationLog;
 import org.zzd.mapper.SystemOperationLogMapper;
-import org.zzd.utils.HttpContextUtils;
-import org.zzd.utils.IpUtil;
-import org.zzd.utils.ThreadLocalUtil;
-import org.zzd.utils.ThrowableUtil;
+import org.zzd.utils.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -52,10 +49,10 @@ public class LogAspect {
     }
 
     /**
-     * @param joinPoint:     切点
-     * @param controllerLog: 日志注解
-     * @param jsonResult:    返回的json结果
-     * @apiNote 处理完请求后执行
+     * @apiNote 处理完成后执行
+     * @param joinPoint :     切点
+     * @param controllerLog : 日志注解
+     * @param jsonResult :    返回的json结果
      */
     @AfterReturning(pointcut = "@annotation(controllerLog)", returning = "jsonResult")
     public void doAfterReturning(JoinPoint joinPoint, Log controllerLog, Object jsonResult) {
@@ -63,10 +60,10 @@ public class LogAspect {
     }
 
     /**
-     * @param joinPoint:     切点
-     * @param controllerLog: 日志注解
-     * @param e:             异常
      * @apiNote 拦截异常操作
+     * @param joinPoint :     切点
+     * @param controllerLog : 日志注解
+     * @param e :             异常
      */
     @AfterThrowing(value = "@annotation(controllerLog)", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Log controllerLog, Exception e) {
@@ -78,8 +75,8 @@ public class LogAspect {
             SystemOperationLog systemOperationLog = new SystemOperationLog();
             systemOperationLog.setStatus(1);
 
-            HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-            systemOperationLog.setOperationIp(IpUtil.getIpAddress(request));   // 请求ip地址
+            HttpServletRequest request = HttpUtils.getHttpServletRequest();
+            systemOperationLog.setOperationIp(HttpUtils.getIpAddress(request));   // 请求ip地址
             systemOperationLog.setOperationUrl(request.getRequestURI());   // 请求url
 
             //异常exception
