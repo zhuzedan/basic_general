@@ -1,5 +1,10 @@
 package org.zzd.utils;
 
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
+import lombok.RequiredArgsConstructor;
+import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
+import net.dreamlu.mica.ip2region.core.IpInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -14,6 +19,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class HttpUtils {
 
+    /**
+     * @apiNote 获得ip地址
+     * @param request 请求
+     * @return {@link String }
+     */
     public static String getIpAddress(HttpServletRequest request) {
         String Xip = request.getHeader("X-Real-IP");
         String XFor = request.getHeader("X-Forwarded-For");
@@ -46,6 +56,30 @@ public class HttpUtils {
         if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor))
             XFor = request.getRemoteAddr();
         return "0:0:0:0:0:0:0:1".equals(XFor) ? "127.0.0.1" : XFor;
+    }
+
+    /**
+     * @apiNote 通过ip获取城市信息
+     * @param ip ip
+     * @return {@link String }
+     */
+    public static String getCityInfo(String ip) {
+        IpInfo ipInfo = SpringContextUtil.getBean(Ip2regionSearcher.class).memorySearch(ip);
+        if (ipInfo != null) {
+            return ipInfo.getAddress();
+        }
+        return null;
+    }
+
+    /**
+     * @apiNote 获取浏览器
+     * @param request 请求
+     * @return {@link String }
+     */
+    public static String getBrowser(HttpServletRequest request) {
+        UserAgent ua = UserAgentUtil.parse(request.getHeader("User-Agent"));
+        String browser = ua.getBrowser().toString() + " " + ua.getVersion();
+        return browser.replace(".0.0.0","");
     }
 
     public static HttpServletRequest getHttpServletRequest() {

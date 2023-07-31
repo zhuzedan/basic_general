@@ -78,6 +78,8 @@ public class LogAspect {
             HttpServletRequest request = HttpUtils.getHttpServletRequest();
             systemOperationLog.setOperationIp(HttpUtils.getIpAddress(request));   // 请求ip地址
             systemOperationLog.setOperationUrl(request.getRequestURI());   // 请求url
+            systemOperationLog.setAddress(HttpUtils.getCityInfo(HttpUtils.getIpAddress(request)));  //地址
+            systemOperationLog.setBrowser(HttpUtils.getBrowser(request)); //浏览器
 
             //异常exception
             if (e != null) {
@@ -109,11 +111,11 @@ public class LogAspect {
     }
 
     /**
+     * @apiNote 获取注解中对方法的描述信息 用于Controller层注解
      * @param joinPoint:    切点
      * @param log:          日志
      * @param operationLog: 操作日志
      * @param jsonResult:   json结果
-     * @apiNote 获取注解中对方法的描述信息 用于Controller层注解
      */
     public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SystemOperationLog operationLog, Object jsonResult) {
         // 设置action动作
