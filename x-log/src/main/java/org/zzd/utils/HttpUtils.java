@@ -2,7 +2,6 @@ package org.zzd.utils;
 
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import lombok.RequiredArgsConstructor;
 import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
 import net.dreamlu.mica.ip2region.core.IpInfo;
 import org.apache.commons.lang3.StringUtils;
