@@ -18,7 +18,6 @@ import java.util.Date;
  * @author zzd
  * @since 2023-03-02 15:21:05
  */
-@SuppressWarnings("serial")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ThreadLocalUtil {
-    private static final ThreadLocal<String> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<String> THREAD_LOCAL = new ThreadLocal<>();
 
     public static void setUsername(String username) {
-        threadLocal.set(username);
+        THREAD_LOCAL.set(username);
     }
 
     public static String getUsername() {
-        return threadLocal.get();
+        return THREAD_LOCAL.get();
     }
 }
